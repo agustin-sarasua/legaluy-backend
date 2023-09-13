@@ -11,7 +11,7 @@ __pycache__/
 secret.key
 
 .pytest_cache/
-
+admin_key_pair.pem
 # VSCode-specific files
 .vscode/
 .vscode/settings.json

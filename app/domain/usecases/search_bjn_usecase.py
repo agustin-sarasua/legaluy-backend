@@ -11,7 +11,7 @@ host = 'search-jurisprudencia-e6bo6poynsg5wfdnqggt4xp2uu.us-east-1.es.amazonaws.
 region = 'us-east-1' # e.g. us-west-1
 service = 'es'
 credentials = boto3.Session().get_credentials()
-print(credentials)
+print("Credentials: ", credentials)
 awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
 index_name = 'jurisprudencia'
 # url = host + '/' + index + '/_search'

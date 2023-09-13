@@ -1,15 +1,17 @@
 import os
 import uvicorn
+
+print("Loading .env file")
 from dotenv import load_dotenv, find_dotenv
+
+_ = load_dotenv(find_dotenv())  # read local .env file
+
 from app.domain.usecases.process_chat_msg import ProcessChatMsgUseCase
 from app.domain.usecases.search_bjn_usecase import SearchBJNUseCase
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.presentation.routers import (
-    search_router, chat_router
-)
+from app.presentation.routers import search_router, chat_router
 
-_ = load_dotenv(find_dotenv())  # read local .env file
 from fastapi import FastAPI, Form
 
 
@@ -24,6 +26,9 @@ app.include_router(chat_router.chat_router)
 origins = [
     "http://localhost",
     "http://localhost:4200",
+    # "https://c761-2003-e9-5f11-3bb5-a0df-4cff-f063-9692.ngrok-free.app",
+    "https://www.reservamedirecto.com",
+    "https://reservamedirecto.com"
     # Add more origins as needed
 ]
 
@@ -34,6 +39,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/healthz")
 async def root():

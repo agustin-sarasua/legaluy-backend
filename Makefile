@@ -1,9 +1,11 @@
 APP_NAME = legaluy-backend
-APP_VERSION = 0.0.1
+APP_VERSION = 0.0.6
 
 AWS_ECR_ACCOUNT_ID = 695251250319
 AWS_ECR_REGION = us-east-1
-AWS_ECR_REPO = bnbot-repo
+AWS_ECR_REPO = my-ecr-repo
+
+PYTHON_VERSION = 3.11
 
 TAG ?= $(APP_VERSION)
 
@@ -12,9 +14,9 @@ TAG ?= $(APP_VERSION)
 # Set the name of the virtual environment
 VENV_NAME = .venv
 
-# Create and activate the virtual environment
+# Setup Targets
 venv:
-	python3 -m venv $(VENV_NAME)
+	python$(PYTHON_VERSION) -m venv $(VENV_NAME)
 
 # Install packages from requirements.txt
 install:
@@ -36,7 +38,5 @@ docker/push: docker/build
 	docker push $(AWS_ECR_ACCOUNT_ID).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com/$(AWS_ECR_REPO):$(TAG)
 
 docker/run:
-	docker run -p 9000:8080 $(AWS_ECR_ACCOUNT_ID).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com/$(AWS_ECR_REPO):$(TAG)
-
-docker/test:
-	curl -XPOST 'http://localhost:9000/2015-03-31/functions/function/invocations' -d '{}'
+	docker run -p 9000:80 $(APP_NAME):$(APP_VERSION)
+# 	docker run -p 80:80 695251250319.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:0.0.2
